@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="pswd_Strength.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+</head>
+<style type="text/css">
+    textarea {
+        vertical-align: top;
+    }
+
+    label {
+        text-align: left;
+        display: inline;
+        margin-left: 50px;
+        margin-right: 30px;
+        color: darkgrey;
+    }
+
+    input {
+        position: absolute;
+        left: 50%;
+    }
+
+    #address1 {
+        margin-left: 220px;
+    }
+
+    select {
+        margin-left: 90px;
+    }
+
+    progress {
+        margin-right: 50px;
+    }
+
+    #target, #src > img {
+        border: thin solid black;
+        padding: 2px;
+        margin: 4px;
+    }
+
+    #target {
+        height: 102px;
+        width: 102px;
+        left: 45px;
+        text-align: center;
+        display: table;
+        position: absolute;
+        float: right;
+    }
+
+    #target > p {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #target > img {
+        margin: 1px;
+    }
+
+    img.dragged {
+        background-color: lightgrey;
+    }
+
+</style>
+<body>
+<div style="border-style: ridge; position: absolute; width: 1000px; height: 1200px;top: 5%; left: 20%;">
+
+
+    <div style="display: inline-table">
+        <p align="left"
+           style="margin-top:13% ;margin-left: 60px; font-family: Verdana, Geneva, sans-serif; font-size: 150%">
+            Registration</p>
+    </div>
+    <hr width="90%">
+    <form id="form1" onsubmit="return (sendData() && validateForm())" method="POST" action="form_submission.html">
+        <div style="position: absolute;">
+            <div>
+                <label for="first_name"> First Name <input type="text" id="first_name"
+                                                           style="width: 300px; height: 25px" pattern="[A-Za-z]*"
+                                                           title="Only Alphabets Allowed!"> </label>
+            </div>
+            <br>
+
+            <div>
+                <label for="last_name"> Last Name <input type="text" id="last_name"
+                                                         style="width: 300px; height: 25px" pattern="[A-Za-z]*"
+                                                         title="Only Alphabets Allowed!"> </label>
+            </div>
+            <br>
+
+            <div>
+                <label for="email">Email Address <input type="email" id="email"
+                                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                                                        placeholder="Enter Email id" title="Enter valid email address"
+                                                        style="width: 300px; height: 25px"></label>
+            </div>
+            <br>
+
+            <div>
+                <div>
+                    <label for="verifyEmail">Verify Email Address <input type="email" id="verifyEmail"
+                                                                         style="width: 300px; height: 25px"
+                                                                         onkeyup="return emailMatch()"></label>
+
+                    <div style="position: absolute; left: 105%; width: 90%; top: 13%">
+                        <span id="emailVerification1" style="color: green; font-weight: bold"></span>
+                    </div>
+                </div>
+                <br>
+                <!-- Password -->
+                <div>
+                    <label for="password">Password <input type="password" id="password"
+                                                          pattern="(?=.*\W)(?=.*[a-z])(?=.*[A-Z]).{8,24}"
+                                                          title="Must contain at least 3 uppercase, 2 lowercase and 2 special characters and min 8 & max 24
+                                                                                                  characters"
+                                                          style="width: 300px; height: 25px"
+                                                          onkeyup="return passwordStrength()"></label>
+
+
+                    <div id="progress1" class="progress"
+                         style="display:none; width: 180px;left:110%;float:left; position: absolute; top: 25%">
+                        <div id="progressbar1" class="progress-bar progress-bar-danger progress-bar-striped"
+                             role="progressbar" style="width:20%">
+                            Weak
+                        </div>
+                    </div>
+
+
+                    <div id="progress2" class="progress"
+                         style="display:none; width: 180px; left:110%;float:left; position: absolute; top: 25%">
+                        <div id="progressbar2" class="progress-bar progress-bar-warning progress-bar-striped"
+                             role="progressbar" style="width:50%">
+                            Good
+                        </div>
+                    </div>
+
+
+                    <div id="progress3" class="progress"
+                         style="display:none; width: 180px;left:110%;float:left; position: absolute; top: 25%">
+                        <div id="progressbar3" class="progress-bar progress-bar-info progress-bar-striped"
+                             role="progressbar" style="width:75%">
+                            Very Good
+                        </div>
+                    </div>
+
+
+                    <div id="progress4" class="progress"
+                         style="display:none; width: 180px;left:110%;float:left; position: absolute; top: 25%">
+                        <div id="progressbar4" class="progress-bar progress-bar-success progress-bar-striped"
+                             role="progressbar" style="width:100%">
+                            Strong!
+                        </div>
+                    </div>
+                </div>
+                <div>
+
+                    <br>
+
+                    <label for="verifyPassword">Verify Password <input type="password" id="verifyPassword"
+                                                                       pattern="(?=.*\W)(?=.*[a-z])(?=.*[A-Z]).{8,24}"
+                                                                       title="Must contain at least 3 uppercase, 2 lowercase and 2 special characters and min 8 & max 24 characters"
+                                                                       style="width: 300px; height: 25px"
+                                                                       onkeyup="return passwordMatch()"></label>
+
+                    <div style="position: absolute; left: 105%; width: 90%; top: 32%">
+                        <span id="passwordVerification1" style="color: green; font-weight: bold;"></span>
+                        <span id="passwordVerification" style="color: red; font-weight: bold"></span>
+                    </div>
+                    <br>
+                </div>
+
+
+            </div>
+            <br>
+
+            <div>
+                <label for="dob">D.O.B </label>
+                <input type="date" id="dob" style="width: 300px; height: 25px"> <br>
+            </div>
+            <br>
+
+            <div>
+
+                <label for="dob_dt">D.O.B with time </label>
+                <input type="datetime" id="dob_dt" style="width: 300px; height: 25px"> <br>
+            </div>
+            <br>
+
+            <div>
+                <label for="dob_loc">Local D.O.B </label>
+                <input type="datetime-local" id="dob_loc" style="width: 300px; height: 25px"> <br>
+            </div>
+            <br>
+
+            <div>
+
+                <label for="ssn">SSN </label>
+                <input type="text" id="ssn" style="width: 300px; height: 25px" pattern="\d{3}[\-]\d{2}[\-]\d{4}"
+                       title="Must be in format nnn-nn-nnnn"> <br>
+            </div>
+
+            <br>
+
+            <div>
+                <label for="phn">Telephone </label>
+                <input type="tel" id="phn" style="width: 300px; height: 25px" pattern="\d{3}[\-]\d{3}[\-]\d{4}"
+                       title="Must be in format nnn-nnn-nnnn"> <br>
+            </div>
+            <br>
+
+            <div>
+
+                <label for="card">Credit Card </label>
+                <input type="text" id="card" style="width: 300px; height: 25px" pattern="[0-9]{12,16}"
+                       title="Must be 12-16 digits"> <br>
+            </div>
+
+            <br>
+
+            <div>
+                <label for="securityQuestion1">Security Question1</label>
+
+
+                <select id="securityQuestion1" name="securityQuestion1" style="width: 300px">
+                    <option value="sq">---</option>
+                    <option value="sq1">Sum of 2 + 3=</option>
+                    <option value="sq2">Sum of 100 + 200=</option>
+                    <option value="sq3">23 x 100=</option>
+                    <option value="sq4">Capital of India=</option>
+                    <option value="sq5">Capital of USA=</option>
+                </select>
+                <!--<span id="questionSpan1" style="color: red; font-weight: bold"></span>-->
+                <span id="security_msg" style="display:none"></span>
+            </div>
+            <br>
+
+            <div>
+                <label for="securityAnswer1">Security Answer1 <input type="text"
+                                                                     id="securityAnswer1" name="securityAnswer1"
+                                                                     style="width: 300px; height: 25px"> </label>
+            </div>
+            <br>
+
+
+            <div>
+                <label for="securityQuestion2">Security Question2</label>
+
+                <select id="securityQuestion2" name="securityQuestion2" style="width: 300px" onkeyup="secMatch()">
+                    <option value="q">---</option>
+                    <option value="q1">Sum of 2 + 3=</option>
+                    <option value="q2">Sum of 100 + 200=</option>
+                    <option value="q3">23 x 100=</option>
+                    <option value="q4">Capital of India?=</option>
+                    <option value="q5">Capital of USA=</option>
+                </select>
+            </div>
+            <br>
+
+            <div>
+                <label for="securityAnswer2">Security Answer2</label>
+                <input type="text" id="securityAnswer2" name="securityAnswer2"
+                       style="width: 300px; height: 25px">
+            </div>
+            <br>
+            <br>
+
+
+            <div>
+                <label id="selectCaptchaImage">Captcha: Drop the image in the box corresponding to the following
+                    text. </label>
+
+            </div>
+            <br>
+
+            <div>
+                <label id="captcha"> </label>
+            </div>
+            <br>
+
+            <div id="src">
+                &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                <img draggable="auto" id="SJSU" src="SJSU.png" alt="SJSU" height="70 px" width="70 px"/>
+                <img draggable="true" id="Microsoft" src="Microsoft.png" alt="Microsoft" height="70 px" width="70 px"/>
+                <img draggable="true" id="Cisco" src="Cisco.png" alt="Cisco" height="70 px" width="70 px"/>
+
+                <div id="target">
+                    <p id="msg">Drop Here</p>
+                </div>
+            </div>
+
+            <script>
+                var selectImage = ['SJSU', 'Microsoft', 'Cisco'];
+                var pickImage = function () {
+                    var myImage = selectImage[Math.floor(Math.random() * 3)];
+                    return myImage;
+                };
+                var random = pickImage();
+                document.getElementById("captcha").innerHTML = random;
+                var src = document.getElementById("src");
+                var target = document.getElementById("target");
+                var msg = document.getElementById("msg");
+                var draggedID;
+                target.ondragenter = handleDrag;
+                target.ondragover = handleDrag;
+
+                target.ondrop = function (e) {
+                    var newElem = document.getElementById(draggedID).cloneNode(false);
+                    target.innerHTML = "";
+                    target.appendChild(newElem);
+                    e.preventDefault();
+                };
+
+                function handleDrag(e) {
+                    e.preventDefault();
+                }
+
+                src.ondragstart = function (e) {
+                    draggedID = e.target.id;
+                    e.target.classList.add("dragged");
+                    var droppedImage = document.getElementById("target");
+                };
+
+                src.ondragend = function (e) {
+                    var elems = document.querySelectorAll(".dragged");
+                    for (var i = 0; i < elems.length; i++) {
+                        elems[i].classList.remove("dragged");
+
+                    }
+
+                    if (random == draggedID)
+                        alert("Captcha Matched!!! ");
+                    else
+                        alert("Please match Captcha..");
+
+                    function validateCaptcha(){
+                        if (random != draggedID)
+                        alert("Please match Captcha..");
+                    }
+
+                    function checkCaptcha()
+                    {
+                        var f = document.forms["theform"].elements;
+                        var cansubmit = true;
+
+                        for (var i = 0; i < f.length; i++) {
+                            if (f[i].value.length == 0) cansubmit = false;
+                        }
+
+                        if (cansubmit) {
+                            document.getElementById('submitbutton').disabled = false;
+                        }
+                        else {
+                            document.getElementById('submitbutton').disabled = 'disabled';
+                        }
+                    }
+                }
+            </script>
+
+        </div>
+
+        <!-- Register -->
+        <div style="position: absolute; top: 89%;left: 35%; width: 25%; float: left">
+            <button type="submit" value="Submit" >Register</button>
+        </div>
+
+        <div style="position: absolute; top: 89%; left: 55%; width: 25%; float: left">
+            <button type="reset" value="Reset" onclick="clear_fields()">Reset</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
